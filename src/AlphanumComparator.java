@@ -136,7 +136,24 @@ public class AlphanumComparator implements Comparator<String>
      * Feel free to delete this in your own code!
      */
     public static void main(String[] args) {
-        List<String> values = Arrays.asList("8869a", "214b", "1210c", "98d", "10762e", "3282f", "15619g", "3498h", "7208i", "1988j", "6113k", "3585l", "11535m", "9718n", "1936o", "5141p", "2610q", "2803r", "7649s", "91t", "3060u", "2851v", "1193w", "9006x", "7916y", "169z");
+        /**
+         * * Run AlphanumComparator.
+         *  *
+         *  * Copy the System output and paste it into Main.main.alphaNumSorted
+         *  * Like this: String alphaNumSorted = "//here";
+         *  *
+         */
+        Main.p("""
+                /**
+                   * Run AlphanumComparator.
+                   * Copy the System output and paste it into Main.main.alphaNumSorted
+                   * Like this: String alphaNumSorted = "//here";
+                 */
+                """);
+        List<String> values = Arrays.asList(
+                 // paste Main.main output below
+                "7649a", "2610b", "10762c", "98d", "1988e", "9006f", "169g", "3060h", "8869i", "3282j", "2851k", "5141l", "214m", "7208n", "3498o", "1193p", "7916q", "1936r", "1210s", "9718t", "15619u", "6113v", "2803w", "91x", "3585y", "11535z"
+        );
         System.out.println(values.stream().sorted(new AlphanumComparator()).collect(Collectors.joining(" ")));
     }
 }
