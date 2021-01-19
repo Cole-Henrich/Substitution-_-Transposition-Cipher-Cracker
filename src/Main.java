@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,6 +34,7 @@ import java.util.stream.IntStream;
  */
 
 public class Main {
+    public static ArrayList<String>charFreq = new ArrayList<>();
     static File output = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/output.txt");
    static ArrayList<String>alphaNum = new ArrayList<>();
 
@@ -82,7 +84,6 @@ public class Main {
         }
         p("unique:  " + unique);
         SCANNER.close();
-        ArrayList<String>charFreq = new ArrayList<>();
         for (int i = 0; i < unique.size(); i++){
             charFreq.add("filler");
         }
@@ -103,46 +104,46 @@ public class Main {
             charFreq.set(i, count_plus_char);
         }
         p("charFreq:  " + charFreq);
-
         FileWriter fileWriter = new FileWriter("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/second.txt");
         char[] Alphabet = {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         };
-        int[] Counts = new int[Alphabet.length];
 
-        File file = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/input.txt");
-        Scanner s = new Scanner(file);
-        while (s.hasNext()) {
-            String str = s.next();
-            for (int i = 0; i < str.length(); i++) {
-                char ch = str.charAt(i);
-                int count = 0;
-                for (int j = 0; j < Alphabet.length; j++) {
-                    char letter = Alphabet[j];
-                    if (ch == letter) {
-                        count++;
-                        Counts[j] += count;
-                    }
-                }
-            }
+        Collections.sort(charFreq, new AlphanumComparator());
+        p("""
+                
+                
+                
+                Sorted:
+                
+                
+                
+                """
+        );
+        p(charFreq);
+        for (int i = 0; i < charFreq.size(); i++) {
+            String str = charFreq.get(i);
+            str = str.replaceAll("^[^~]*~", "");
+            charFreq.set(i, str);
         }
-        p(Arrays.toString(Alphabet));
-        p(Arrays.toString(Counts));
-
-        for (int i = 0; i < Alphabet.length; i++) {
-            String alphanum = Counts[i] + "" + Alphabet[i];
-            alphaNum.add("\"" + alphanum + "\"");
-        }
-        p(alphaNum);
-        String alphaNumSorted = "91p 98g 169n 214z 1193l 1210a 1936f 1988r 2610v 2803o 2851s 3060w 3282m 3498c 3585k 5141b 6113t 7208h 7649x 7916i 8869y 9006d 9718e 10762q 11535j 15619u"
-                ;
-
-
-        String alpha = alphaNumSorted.replaceAll("[0-9]", "");
-        alpha = alpha.replaceAll("\s", "");
         String reverse = "zqxjkvbpygfwmculdrhsnioate";
-        p(alpha);
-        p(reverse);
+        p("""
+                
+                
+                removed everything before ~
+                
+                
+                """);
+        p(charFreq);
+        StringBuilder alpha = new StringBuilder();
+        for (String Ch : charFreq) {
+            alpha.append(Ch);
+        }
+
+       p("alpha: "+ alpha);
+        p("standard reverse: " + reverse);
+
+
         File source = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/input.txt");
         Scanner scanner = new Scanner(source);
 

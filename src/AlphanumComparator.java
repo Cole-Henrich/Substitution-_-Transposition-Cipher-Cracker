@@ -31,7 +31,6 @@
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -137,13 +136,7 @@ public class AlphanumComparator implements Comparator<String>
      * Feel free to delete this in your own code!
      */
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        String userInput = s.nextLine();
-
-        List<String> values = Arrays.asList(
-            userInput
-        );
+        List<String> values = Arrays.asList("dazzle2", "dazzle10", "dazzle1", "dazzle2.7", "dazzle2.10", "2", "10", "1", "EctoMorph6", "EctoMorph62", "EctoMorph7");
         System.out.println(values.stream().sorted(new AlphanumComparator()).collect(Collectors.joining(" ")));
-
     }
 }
