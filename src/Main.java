@@ -1,11 +1,12 @@
-
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  Clear input.txt
@@ -34,26 +35,81 @@ import java.util.Scanner;
 public class Main {
     static File output = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/output.txt");
    static ArrayList<String>alphaNum = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
-       p("""
-               /**
-               Clear input.txt
-               
-               *paste encrypted input into input.txt.
-               
-               *Then run main.
-               
-               See the System output, and copy the third array, the alphanumeric one,
-               * and paste it into AlphanumComparator.main.values;
-               * List<String> values = Arrays.asList(//paste it in the parentheses when you see this in AlphanumComparator);
-               */
-               """);
+
+        /*
+         * Counts the frequency of each character occurring in a NON-ENCODED text.
+         * This is because some texts may not match the purported frequency ordering of
+         * zqxjkvbpygfwmculdrhsnioate
+         * It is also notable because it counts frequency of chars instead of solely letters.
+         * This may be used to crack the EmojEncode.
+         *          Has a user-input scanner to get the pathname of the file
+         *          and make it generally easier on a user,
+         *          so they don't have to enter the code itself to paste the filename.
+         */
+        p("""
+                Please enter the pathname of the file that you want to be analyzed. 
+                                
+                This can be found by shift+command+c when you click on the file in Intellij.
+                or "Right click on the file, hold down Alt/Option, and an item to copy file path will appear as Copy "<FILENAME>" as Pathname." - Attributed to Skeleton Bow on Stack Exchange
+                                
+                An example, using the Great Gatsby text, of what the pathname looks like, is this: 
+                                
+                /Users/cole.henrich/Desktop/Desktop/\\=\\-?/The Great Gatsby Text.txt
+                               
+                Enter pathname:
+                """);
+
+
+        Scanner ScAn = new Scanner(System.in);
+
+        String pathname = ScAn.nextLine();
+        if (pathname.equalsIgnoreCase("g")){
+            pathname = "/Users/cole.henrich/Desktop/Desktop/\\=\\-?/The Great Gatsby Text.txt";
+        }
+        File text = new File(pathname);
+        Scanner SCANNER = new Scanner(text);
+        ArrayList<Character> unique = new ArrayList<>();
+        while (SCANNER.hasNext()) {
+            String string = SCANNER.next();
+            for (int i = 0; i < string.length(); i++) {
+                char character = string.charAt(i);
+                if (!unique.contains(character)) {
+                    unique.add(character);
+                }
+            }
+        }
+        p("unique:  " + unique);
+        SCANNER.close();
+        ArrayList<String>charFreq = new ArrayList<>();
+        for (int i = 0; i < unique.size(); i++){
+            charFreq.add("filler");
+        }
+        for (int i = 0; i < unique.size(); i++) {
+            Scanner scanText = new Scanner(text);
+            int charCount = 0;
+            char uniqueChar = unique.get(i);
+            while(scanText.hasNext()) {
+                String string = scanText.next();
+                for (int j = 0; j < string.length(); j++) {
+                    char character = string.charAt(j);
+                    if (uniqueChar == character) {
+                        charCount +=1;
+                    }
+                }
+            }
+            String count_plus_char = charCount + "~" + uniqueChar;
+            charFreq.set(i, count_plus_char);
+        }
+        p("charFreq:  " + charFreq);
 
         FileWriter fileWriter = new FileWriter("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/second.txt");
         char[] Alphabet = {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         };
         int[] Counts = new int[Alphabet.length];
+
         File file = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/input.txt");
         Scanner s = new Scanner(file);
         while (s.hasNext()) {
@@ -78,7 +134,10 @@ public class Main {
             alphaNum.add("\"" + alphanum + "\"");
         }
         p(alphaNum);
-        String alphaNumSorted = "91x 98d 169g 214m 1193p 1210s 1936r 1988e 2610b 2803w 2851k 3060h 3282j 3498o 3585y 5141l 6113v 7208n 7649a 7916q 8869i 9006f 9718t 10762c 11535z 15619u";
+        String alphaNumSorted = "91p 98g 169n 214z 1193l 1210a 1936f 1988r 2610v 2803o 2851s 3060w 3282m 3498c 3585k 5141b 6113t 7208h 7649x 7916i 8869y 9006d 9718e 10762q 11535j 15619u"
+                ;
+
+
         String alpha = alphaNumSorted.replaceAll("[0-9]", "");
         alpha = alpha.replaceAll("\s", "");
         String reverse = "zqxjkvbpygfwmculdrhsnioate";
@@ -104,6 +163,7 @@ public class Main {
                 fileWriter1.append(ch);
             }
         }
+        fileWriter1.close();
     }
     public static void p(Object o) {
         System.out.println(o);
@@ -111,6 +171,7 @@ public class Main {
     public static int pi(String s){
         return Integer.parseInt(s);
     }
+
     private static void Enhance() throws IOException {
         String[] Ngrams = {"_o_", "_I_","_oi_", "_of_", "_sor_", "for", "eww", "egg", "oder", "over", "_eou_", "_you_", "_sae_", "_say_", "_daes_", "_days_", "bt", "st", "_tto_", "_two_", "_lut_", "_but_", "_ce_", "_me_", "_dod_", "_did_", "_hos_", "_his_", "_iot_", "_all_", "wht", "ght", "ied_", "ned_", "_hot_", "_how_", "_tas_", "_was_", "_aid_", "_and_", "_lust_", "_just_", "lcost", "lmost", "curcur", "murmur","tocorrot", "tomorrow", "_wade_", "_made_", "_oder_", "_over_", "_loie_", "_love_", "_edwe_", "_edge_", "_tace_", "_face_", "_thai_", "_that_", "_cuth_", "_with_", "_torld_", "_world_", "_brode_", "_broke_", "_hode_", "_hope_", "_seise_", "_seize_"};
         File outEnhanced = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/outEnhanced.txt");

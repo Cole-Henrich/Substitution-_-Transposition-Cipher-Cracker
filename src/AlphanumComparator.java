@@ -31,6 +31,7 @@
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -136,24 +137,13 @@ public class AlphanumComparator implements Comparator<String>
      * Feel free to delete this in your own code!
      */
     public static void main(String[] args) {
-        /**
-         * * Run AlphanumComparator.
-         *  *
-         *  * Copy the System output and paste it into Main.main.alphaNumSorted
-         *  * Like this: String alphaNumSorted = "//here";
-         *  *
-         */
-        Main.p("""
-                /**
-                   * Run AlphanumComparator.
-                   * Copy the System output and paste it into Main.main.alphaNumSorted
-                   * Like this: String alphaNumSorted = "//here";
-                 */
-                """);
+        Scanner s = new Scanner(System.in);
+        String userInput = s.nextLine();
+
         List<String> values = Arrays.asList(
-                 // paste Main.main output below
-                "7649a", "2610b", "10762c", "98d", "1988e", "9006f", "169g", "3060h", "8869i", "3282j", "2851k", "5141l", "214m", "7208n", "3498o", "1193p", "7916q", "1936r", "1210s", "9718t", "15619u", "6113v", "2803w", "91x", "3585y", "11535z"
+            userInput
         );
         System.out.println(values.stream().sorted(new AlphanumComparator()).collect(Collectors.joining(" ")));
+
     }
 }
