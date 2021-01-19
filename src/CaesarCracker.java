@@ -11,14 +11,14 @@ public class CaesarCracker {
     public static void main(String[] args) throws IOException {
         File Ngraphs = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/Ngraphs.txt");
         Scanner sg= new Scanner(Ngraphs);
-        int length = 0;
+        int Nlength = 0;
         while (sg.hasNext()) {
             String string = sg.next();
             if (string != null) {
-                length++;
+                Nlength++;
             }
         }
-        p("Number of common Ngraphs in Ngraphs.txt: "+length);
+        p("Number of common Ngraphs in Ngraphs.txt: "+Nlength);
         int len = 0;
         StringBuilder graphs = new StringBuilder();
         Scanner scanGraphs= new Scanner(Ngraphs);
@@ -28,7 +28,7 @@ public class CaesarCracker {
                 len++;
             }
             StringBuilder graph = new StringBuilder("\"" + thisGraph + "\"");
-            if (len < length) {
+            if (len < Nlength) {
                 graph.append(",");
             }
             graphs.append(graph);
@@ -75,46 +75,36 @@ public class CaesarCracker {
         File caesar = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/input-caesar.txt");
         File cracked = new File ("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/cracked.txt");
         for (char[] ab : all) {
+            int solved01 = 0;
             File guess = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/guess.txt");
             FileWriter fileWriter = new FileWriter(guess);
             Scanner scanner = new Scanner(caesar);
+            int lencount = 0;
             while (scanner.hasNext()) {
                 String string = scanner.next();
-               StringBuilder rtn = new StringBuilder();
+                StringBuilder rtn = new StringBuilder();
+                if (string != null) {lencount++;}
                 for (int j = 0; j < string.length(); j++) {
                     char Char = string.charAt(j);
                     for (int k = 0; k < Alphabet0.length; k++) {
                         char letter = Alphabet0[k];
-                        if (Char == letter){
+                        if (Char == letter) {
                             Char = ab[k];
                             rtn.append(Char);
                         }
                     }
                 }
-                int solved01 = 0;
                 for (String check : checkSolved) {
                     if (rtn.toString().equalsIgnoreCase(check)) {
                         solved01++;
                     }
-                    if (solved01 >= 2){
-                        p("solved with "+ solved01 + " attesting Ngraphs");
-                    }
-                    }
+                }
                 p(rtn);
             }
-            Scanner s = new Scanner(guess);
-            int solved = 0;
-            while(s.hasNext()) {
-                String string = s.next();
-                for (String check : checkSolved) {
-                    if (string.equalsIgnoreCase(check)) {
-                        solved++;
-                    }
+            p("length of guess: "+ lencount);
+                if (solved01 > lencount / 5) {
+                    p("solved with " + solved01 + " attesting Ngraphs");
                 }
-            }
-            if (solved >= 10){
-                   p("solved with "+ solved + " attesting Ngraphs");
-            }
         }
     }
 
