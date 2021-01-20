@@ -74,7 +74,8 @@ public class CaesarCracker {
         };
         File caesar = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/input-caesar.txt");
         File cracked = new File ("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/cracked.txt");
-        for (char[] ab : all) {
+        for (int i= 0; i < all.length; i++) {
+            char[] ab = all[i];
             int solved01 = 0;
             File guess = new File("/Users/cole.henrich/IdeaProjects/BasicSubCipherCracker/src/guess.txt");
             FileWriter fileWriter = new FileWriter(guess);
@@ -103,7 +104,15 @@ public class CaesarCracker {
             }
             p("length of guess: "+ lencount);
                 if (solved01 > lencount / 5) {
-                    p("solved with " + solved01 + " attesting Ngraphs");
+                    p("solved with " + solved01 + " attesting Ngraphs.");
+                    p("This was the " + i + "th shifted Alphabet. \n" +
+                            "Therefore, the key to the cipher is to shift each letter up " + i + " times. \n" +
+                            "As such, 'a' becomes " + ab[0] + ".\n" +
+                            "Here is the full key. \n" +
+                            "the alphabet is on top and corresponds with the full key on bottom: \n"
+                            + Arrays.toString(all[0]) + "\n"
+                            + Arrays.toString(ab) + "\n");
+
                 }
         }
     }
